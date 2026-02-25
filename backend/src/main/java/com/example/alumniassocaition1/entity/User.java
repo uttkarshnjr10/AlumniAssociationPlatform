@@ -1,0 +1,106 @@
+package com.example.alumniassocaition1.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+/**
+ * JPA entity representing a platform user.
+ *
+ * <p>Each user belongs to a single {@link College} and holds a role such as
+ * {@code student}, {@code alumnus}, or {@code admin}. Profile information,
+ * follow relationships, posts, events, and donations are all tracked through
+ * this entity.</p>
+ */
+@Entity
+@Getter
+@Setter
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "college_id", nullable = false)
+    private College college;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    /** User role – e.g. {@code student}, {@code alumnus}, {@code admin}. */
+    @Column(nullable = false)
+    private String role;
+
+    /** Account status – e.g. {@code active}, {@code inactive}, {@code pending_verification}. */
+    @Column(nullable = false)
+    private String status;
+
+    @Column(name = "profile_headline")
+    private String profileHeadline;
+
+    @Column(name = "profile_location")
+    private String profileLocation;
+
+    @Lob
+    @Column(name = "profile_about")
+    private String profileAbout;
+
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "createdBy")
+    private Set<Event> createdEvents;
+
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
+
+    @OneToMany(mappedBy = "author")
+    private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Donation> donations;
+
+    @OneToMany(mappedBy = "user")
+    private Set<EventAttendee> eventAttendances;
+
+    @OneToMany(mappedBy = "user")
+    private Set<PostLike> postLikes;
+
+    /** Users that this user is following. */
+    @OneToMany(mappedBy = "follower")
+    private Set<UserFollow> following;
+
+    /** Users that follow this user. */
+    @OneToMany(mappedBy = "following")
+    private Set<UserFollow> followers;
+
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}
