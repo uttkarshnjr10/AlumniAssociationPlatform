@@ -9,10 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Service contract for event lifecycle management including creation,
  * updates, deletion, and attendee join/leave operations.
  */
+=======
+>>>>>>> upstream/main
 public interface EventService {
     List<EventDto> getAllEvents();
     EventDto getEventById(Long eventId) throws ResourceNotFoundException;

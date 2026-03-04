@@ -7,9 +7,12 @@ import com.example.alumniassocaition1.entity.College;
 
 import java.util.Optional;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link College} entities.
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface CollegeRepository extends JpaRepository<College, Long> {
     Optional<College> findByName(String name);

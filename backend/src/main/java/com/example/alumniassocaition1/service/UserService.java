@@ -9,10 +9,13 @@ import com.example.alumniassocaition1.exception.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Service contract for user-related operations including profile management,
  * follow/unfollow, and Spring Security {@link UserDetailsService} integration.
  */
+=======
+>>>>>>> upstream/main
 public interface UserService extends UserDetailsService { // Extends UserDetailsService for Spring Security integration
     UserProfileDto getUserProfile(Long userId) throws ResourceNotFoundException;
 

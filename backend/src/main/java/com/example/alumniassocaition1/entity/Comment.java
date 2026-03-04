@@ -6,9 +6,12 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
+<<<<<<< HEAD
 /**
  * JPA entity representing a comment on a {@link Post}.
  */
+=======
+>>>>>>> upstream/main
 @Entity
 @Getter
 @Setter

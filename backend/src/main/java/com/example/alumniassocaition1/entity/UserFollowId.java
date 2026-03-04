@@ -10,9 +10,12 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
+<<<<<<< HEAD
 /**
  * Composite primary key for {@link UserFollow}.
  */
+=======
+>>>>>>> upstream/main
 @Embeddable
 @Getter
 @Setter
@@ -21,10 +24,17 @@ import java.util.Objects;
 public class UserFollowId implements Serializable {
 
     @Column(name = "follower_id")
+<<<<<<< HEAD
     private Long followerId;
 
     @Column(name = "following_id")
     private Long followingId;
+=======
+    private Long followerId; // The user doing the following
+
+    @Column(name = "following_id")
+    private Long followingId; // The user being followed
+>>>>>>> upstream/main
 
     @Override
     public boolean equals(Object o) {

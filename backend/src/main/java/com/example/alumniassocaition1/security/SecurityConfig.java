@@ -1,6 +1,10 @@
 package com.example.alumniassocaition1.security;
 
 import com.example.alumniassocaition1.service.UserService;
+<<<<<<< HEAD
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> upstream/main
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,23 +29,32 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Central Spring Security configuration.
  *
  * <p>Configures stateless JWT authentication, CORS policies, public/protected
  * endpoints, password encoding, and static-resource serving for uploaded files.</p>
  */
+=======
+>>>>>>> upstream/main
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+<<<<<<< HEAD
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+=======
+    @Autowired
+    private UserService customUserDetailsService;
+>>>>>>> upstream/main
 
     @Value("${file.upload-dir:./uploads}")
     private String uploadDir;
 
+<<<<<<< HEAD
     public SecurityConfig(UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -50,6 +63,11 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtTokenProvider, userService);
+=======
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+>>>>>>> upstream/main
     }
 
     @Bean
@@ -65,6 +83,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+<<<<<<< HEAD
         configuration.setAllowedOrigins(List.of(
                 "https://alumni-association-platform-git-main-sujeet-s-projects-351108b0.vercel.app",
                 "http://localhost:5173"
@@ -74,11 +93,25 @@ public class SecurityConfig {
                 "Authorization", "Cache-Control", "Content-Type",
                 "X-Requested-With", "Accept", "Origin"
         ));
+=======
+        // 👇 MODIFY THIS LINE
+        configuration.setAllowedOrigins(List.of(
+                "https://alumni-association-platform-git-main-sujeet-s-projects-351108b0.vercel.app", // Your Vercel URL
+                "http://localhost:5173" // Keep your local frontend URL for development if needed
+                // Add other origins like your Vercel production domain if you have one
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "Accept", "Origin"));
+>>>>>>> upstream/main
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+<<<<<<< HEAD
         source.registerCorsConfiguration("/**", configuration);
+=======
+        source.registerCorsConfiguration("/**", configuration); // This applies CORS to all paths
+>>>>>>> upstream/main
         return source;
     }
 
@@ -111,7 +144,11 @@ public class SecurityConfig {
                     resolvedUploadDir += java.io.File.separator;
                 }
 
+<<<<<<< HEAD
                 // Serve uploaded files (images) for posts and events
+=======
+                // Serve uploaded images for posts and events from the same directory
+>>>>>>> upstream/main
                 registry.addResourceHandler("/api/posts/uploads/**", "/api/events/uploads/**")
                         .addResourceLocations("file:" + resolvedUploadDir);
             }

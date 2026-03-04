@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link Comment} entities.
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByPostPostIdOrderByCreatedAtAsc(Long postId);

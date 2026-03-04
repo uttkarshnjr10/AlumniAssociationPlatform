@@ -9,11 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link Event} entities.
  *
  * <p>Provides college-scoped, user-scoped, and date-filtered queries.</p>
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     // Find events by a specific college, ordered by event date descending

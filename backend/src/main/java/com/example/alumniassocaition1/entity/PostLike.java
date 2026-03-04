@@ -6,12 +6,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+<<<<<<< HEAD
 /**
  * Join entity representing a user’s “like” on a {@link Post}.
  *
  * <p>Uses composite key {@link PostLikeId} to enforce a unique
  * constraint per user–post pair.</p>
  */
+=======
+>>>>>>> upstream/main
 @Entity
 @Getter
 @Setter

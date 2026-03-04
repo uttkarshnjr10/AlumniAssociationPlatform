@@ -1,6 +1,10 @@
 package com.example.alumniassocaition1.exception;
 
+<<<<<<< HEAD
 import com.example.alumniassocaition1.dto.ApiResponse;
+=======
+import com.example.alumniassocaition1.dto.ApiResponse; // Ensure this path is correct
+>>>>>>> upstream/main
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,16 +17,23 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartException;
+=======
+import org.springframework.web.multipart.MultipartException; // For general multipart issues
+>>>>>>> upstream/main
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 /**
  * Centralised exception handler that translates domain and framework exceptions
  * into consistent {@link ApiResponse} JSON payloads.
  */
+=======
+>>>>>>> upstream/main
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

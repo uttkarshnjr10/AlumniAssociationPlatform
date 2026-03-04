@@ -1,15 +1,26 @@
 package com.example.alumniassocaition1.service;
 
+<<<<<<< HEAD
 import com.example.alumniassocaition1.dto.college.CollegeDto;
 import com.example.alumniassocaition1.dto.college.CollegeRegistrationRequest;
+=======
+import com.example.alumniassocaition1.dto.college.CollegeDto; // Corrected DTO path
+import com.example.alumniassocaition1.dto.college.CollegeRegistrationRequest; // Corrected DTO path
+>>>>>>> upstream/main
 import com.example.alumniassocaition1.entity.College;
 import com.example.alumniassocaition1.entity.User;
 import com.example.alumniassocaition1.repository.CollegeRepository;
 import com.example.alumniassocaition1.repository.UserRepository;
+<<<<<<< HEAD
+=======
+// Corrected: Use Spring's Transactional annotation
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> upstream/main
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,6 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
  * <p>Handles the college registration workflow: creates the college entity
  * and provisions the initial admin user account.</p>
  */
+=======
+
+>>>>>>> upstream/main
 @Service
 public class CollegeServiceImpl implements CollegeService {
 

@@ -8,9 +8,12 @@ import com.example.alumniassocaition1.exception.MyFileNotFoundException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+<<<<<<< HEAD
 /**
  * Service contract for local file-system storage operations (upload, download, delete).
  */
+=======
+>>>>>>> upstream/main
 public interface FileStorageService {
     /**
      * Initializes the storage. Creates the upload directory if it doesn't exist.

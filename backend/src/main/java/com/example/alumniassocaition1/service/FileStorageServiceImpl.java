@@ -21,6 +21,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+<<<<<<< HEAD
 /**
  * Implementation of {@link FileStorageService} backed by the local file system.
  *
@@ -28,6 +29,8 @@ import java.util.stream.Stream;
  * property (default {@code ./uploads}). Uploaded files are renamed with a UUID
  * to prevent collisions.</p>
  */
+=======
+>>>>>>> upstream/main
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
@@ -117,9 +120,13 @@ public class FileStorageServiceImpl implements FileStorageService {
             Files.deleteIfExists(filePath);
         } catch (IOException ex) {
             // Log this, but don't necessarily throw a fatal error if file deletion fails
+<<<<<<< HEAD
             // Log properly instead of System.err
             org.slf4j.LoggerFactory.getLogger(FileStorageServiceImpl.class)
                     .warn("Could not delete file '{}': {}", filename, ex.getMessage());
+=======
+            System.err.println("Could not delete file: " + filename + " due to " + ex.getMessage());
+>>>>>>> upstream/main
             // Optionally rethrow if deletion failure is critical:
             // throw new FileStorageException("Could not delete file " + filename, ex);
         }

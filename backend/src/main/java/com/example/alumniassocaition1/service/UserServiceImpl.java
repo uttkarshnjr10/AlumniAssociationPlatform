@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// --- File: com/example/alumniassocaition1/service/UserServiceImpl.java ---
+>>>>>>> upstream/main
 package com.example.alumniassocaition1.service;
 
 import com.example.alumniassocaition1.dto.user.UserProfileDto;
@@ -27,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 /**
  * Implementation of {@link UserService}.
  *
@@ -34,6 +39,8 @@ import java.util.stream.Collectors;
  * serves as the Spring Security {@link org.springframework.security.core.userdetails.UserDetailsService}
  * for JWT-based authentication.</p>
  */
+=======
+>>>>>>> upstream/main
 @Service
 public class UserServiceImpl implements UserService {
 

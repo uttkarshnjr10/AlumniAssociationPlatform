@@ -8,12 +8,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link UserFollow} entities with composite key {@link UserFollowId}.
  *
  * <p>Supports follower/following lookups, existence checks, counts,
  * and cascade deletes when a user is removed.</p>
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface UserFollowRepository extends JpaRepository<UserFollow, UserFollowId> {
     // Find all users that a specific user is following

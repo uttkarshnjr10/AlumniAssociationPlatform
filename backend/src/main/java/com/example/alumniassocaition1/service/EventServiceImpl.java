@@ -11,7 +11,11 @@ import com.example.alumniassocaition1.entity.College;
 import com.example.alumniassocaition1.exception.ResourceNotFoundException;
 import com.example.alumniassocaition1.repository.EventAttendeeRepository;
 import com.example.alumniassocaition1.repository.EventRepository;
+<<<<<<< HEAD
 import com.example.alumniassocaition1.repository.CollegeRepository;
+=======
+import com.example.alumniassocaition1.repository.CollegeRepository; // Assuming you might need it
+>>>>>>> upstream/main
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +28,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+<<<<<<< HEAD
+=======
+// import org.springframework.web.multipart.MultipartFile; // Not used in this snippet
+// import org.springframework.web.servlet.support.ServletUriComponentsBuilder; // For image URLs
+>>>>>>> upstream/main
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 /**
  * Implementation of {@link EventService}.
  *
@@ -36,6 +46,8 @@ import java.util.stream.Collectors;
  * and attendee join/leave. All mutating operations enforce college-scope
  * authorization.</p>
  */
+=======
+>>>>>>> upstream/main
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -43,9 +55,15 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final EventAttendeeRepository eventAttendeeRepository;
+<<<<<<< HEAD
     private final UserService userService;
     private final FileStorageService fileStorageService;
     private final CollegeRepository collegeRepository;
+=======
+    private final UserService userService; // Assuming this has getCurrentAuthenticatedUserEntity()
+    private final FileStorageService fileStorageService; // For deleting images
+    private final CollegeRepository collegeRepository; // For college-related operations if any
+>>>>>>> upstream/main
 
     @Autowired
     public EventServiceImpl(EventRepository eventRepository,
@@ -60,6 +78,10 @@ public class EventServiceImpl implements EventService {
         this.collegeRepository = collegeRepository;
     }
 
+<<<<<<< HEAD
+=======
+    // Helper to get current user entity (ensure this is robust in your UserService)
+>>>>>>> upstream/main
     private User getCurrentUserEntity() {
         try {
             return userService.getCurrentAuthenticatedUserEntity();
@@ -102,6 +124,10 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", eventId));
 
+<<<<<<< HEAD
+=======
+        // Your existing college visibility check logic
+>>>>>>> upstream/main
         if (currentUser != null && currentUser.getCollege() != null &&
                 event.getCollege() != null &&
                 !currentUser.getCollege().getCollegeId().equals(event.getCollege().getCollegeId())) {
@@ -117,7 +143,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
+<<<<<<< HEAD
     public EventDto createAndSaveEvent(Event event, User creator) {
+=======
+    public EventDto createAndSaveEvent(Event event, User creator) { // Assuming creator is passed
+>>>>>>> upstream/main
         if (creator == null) {
             throw new AccessDeniedException("User must be authenticated to create/save an event.");
         }
@@ -151,8 +181,13 @@ public class EventServiceImpl implements EventService {
         event.setEventDate(createRequestDto.getDate());
         event.setLocation(createRequestDto.getLocation());
         event.setCreatedBy(currentUser);
+<<<<<<< HEAD
         event.setCollege(currentUser.getCollege());
         event.setImageUrl(null);
+=======
+        event.setCollege(currentUser.getCollege()); // Default to creator's college
+        event.setImageUrl(null); // Assuming image handling is separate or via createAndSaveEvent
+>>>>>>> upstream/main
 
         Event savedEvent = eventRepository.save(event);
         return mapEventToDto(savedEvent, currentUser);
@@ -180,6 +215,10 @@ public class EventServiceImpl implements EventService {
         event.setEventDate(updateRequestDto.getDate());
         event.setLocation(updateRequestDto.getLocation());
 
+<<<<<<< HEAD
+=======
+        // College update logic (if applicable)
+>>>>>>> upstream/main
         if (updateRequestDto.getCollegeId() != null && "admin".equalsIgnoreCase(currentUser.getRole())) {
             College targetCollege = collegeRepository.findById(updateRequestDto.getCollegeId())
                     .orElseThrow(() -> new ResourceNotFoundException("College", "id", updateRequestDto.getCollegeId()));
@@ -221,7 +260,11 @@ public class EventServiceImpl implements EventService {
         }
 
         String imageUrl = event.getImageUrl();
+<<<<<<< HEAD
         eventRepository.delete(event);
+=======
+        eventRepository.delete(event); // Cascades to EventAttendee due to orphanRemoval=true
+>>>>>>> upstream/main
 
         if (StringUtils.hasText(imageUrl)) {
             try {
@@ -243,6 +286,17 @@ public class EventServiceImpl implements EventService {
         if (currentUser == null) {
             throw new AccessDeniedException("User must be authenticated to join an event.");
         }
+<<<<<<< HEAD
+=======
+        // Students and Alumni can join. Admins typically don't "join" events this way.
+        if ("admin".equalsIgnoreCase(currentUser.getRole())) {
+            logger.warn("Admin user {} attempted to join event {} via standard join mechanism.", currentUser.getUserId(), eventId);
+            // throw new AccessDeniedException("Admins cannot join events through this action.");
+            // Or allow it if admins can also be attendees. For now, let's assume they can.
+        }
+
+
+>>>>>>> upstream/main
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", eventId));
 
@@ -257,6 +311,10 @@ public class EventServiceImpl implements EventService {
         eventAttendee.setId(eventAttendeeId);
         eventAttendee.setEvent(event);
         eventAttendee.setUser(currentUser);
+<<<<<<< HEAD
+=======
+        // 'joinedAt' is set by @PrePersist in EventAttendee entity
+>>>>>>> upstream/main
 
         eventAttendeeRepository.save(eventAttendee);
         logger.info("User {} successfully joined event {}.", currentUser.getUserId(), eventId);
@@ -273,7 +331,14 @@ public class EventServiceImpl implements EventService {
         EventAttendeeId eventAttendeeId = new EventAttendeeId(eventId, currentUser.getUserId());
 
         if (!eventAttendeeRepository.existsById(eventAttendeeId)) {
+<<<<<<< HEAD
             logger.info("User {} is not attending event {}. No action taken.", currentUser.getUserId(), eventId);
+=======
+            logger.info("User {} is not attending event {}. No action taken for leaving.", currentUser.getUserId(), eventId);
+            // Optionally, throw an exception if trying to leave an event not joined,
+            // or just return silently. For robustness, silent return is fine.
+            // throw new ResourceNotFoundException("EventAttendee", "eventId/userId", eventId + "/" + currentUser.getUserId());
+>>>>>>> upstream/main
             return;
         }
 
@@ -293,10 +358,18 @@ public class EventServiceImpl implements EventService {
 
         if (event.getCreatedBy() != null) {
             UserSummaryDto creatorDto = new UserSummaryDto();
+<<<<<<< HEAD
             creatorDto.setId(event.getCreatedBy().getUserId());
             creatorDto.setName(event.getCreatedBy().getName() != null ? event.getCreatedBy().getName() : "Unknown Creator");
             creatorDto.setEmail(event.getCreatedBy().getEmail());
             creatorDto.setRole(event.getCreatedBy().getRole());
+=======
+            // BeanUtils.copyProperties(event.getCreatedBy(), creatorDto); // Careful with this, ensure UserSummaryDto fields match User fields
+            creatorDto.setId(event.getCreatedBy().getUserId());
+            creatorDto.setName(event.getCreatedBy().getName() != null ? event.getCreatedBy().getName() : "Unknown Creator");
+            creatorDto.setEmail(event.getCreatedBy().getEmail()); // Assuming UserSummaryDto has email
+            creatorDto.setRole(event.getCreatedBy().getRole());   // Assuming UserSummaryDto has role
+>>>>>>> upstream/main
             dto.setCreatedBy(creatorDto);
         } else {
             UserSummaryDto unknownCreator = new UserSummaryDto();
@@ -312,6 +385,10 @@ public class EventServiceImpl implements EventService {
             dto.setAttendees(event.getAttendees().stream().map(ea -> {
                 UserSummaryDto attendeeUserDto = new UserSummaryDto();
                 if (ea.getUser() != null) {
+<<<<<<< HEAD
+=======
+                    // BeanUtils.copyProperties(ea.getUser(), attendeeUserDto);
+>>>>>>> upstream/main
                     attendeeUserDto.setId(ea.getUser().getUserId());
                     attendeeUserDto.setName(ea.getUser().getName());
                     attendeeUserDto.setEmail(ea.getUser().getEmail());
@@ -323,12 +400,30 @@ public class EventServiceImpl implements EventService {
             dto.setAttendees(Collections.emptyList());
         }
 
+<<<<<<< HEAD
         boolean isAttending = false;
         if (currentUser != null && event.getEventId() != null && currentUser.getUserId() != null) {
             isAttending = eventAttendeeRepository.existsByIdEventIdAndIdUserId(
                     event.getEventId(), currentUser.getUserId());
         }
         dto.setAttending(isAttending);
+=======
+        // --- Crucial part for isAttending ---
+        boolean isAttending = false;
+        if (currentUser != null && event.getEventId() != null && currentUser.getUserId() != null) {
+            // Log the parameters being passed to the repository method
+            logger.debug("mapEventToDto: Checking attendance for eventId: {}, userId: {}", event.getEventId(), currentUser.getUserId());
+            isAttending = eventAttendeeRepository.existsByIdEventIdAndIdUserId(event.getEventId(), currentUser.getUserId());
+            logger.debug("mapEventToDto: eventAttendeeRepository.existsByIdEventIdAndIdUserId returned: {}", isAttending);
+        } else {
+            logger.debug("mapEventToDto: currentUser, eventId, or currentUserId is null. Defaulting isAttending to false. User: {}, EventID: {}",
+                    currentUser != null ? currentUser.getUserId() : "null",
+                    event.getEventId());
+        }
+        dto.setAttending(isAttending);
+        logger.debug("mapEventToDto: Final DTO for eventId {}: isAttending = {}", event.getEventId(), dto.isAttending());
+        // --- End crucial part ---
+>>>>>>> upstream/main
 
         return dto;
     }

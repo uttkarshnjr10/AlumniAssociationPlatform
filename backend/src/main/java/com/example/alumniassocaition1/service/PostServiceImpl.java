@@ -13,6 +13,10 @@ import com.example.alumniassocaition1.exception.ResourceNotFoundException;
 import com.example.alumniassocaition1.repository.CommentRepository;
 import com.example.alumniassocaition1.repository.PostLikeRepository;
 import com.example.alumniassocaition1.repository.PostRepository;
+<<<<<<< HEAD
+=======
+import com.example.alumniassocaition1.service.UserService;
+>>>>>>> upstream/main
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +36,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Collections;
 
+<<<<<<< HEAD
 /**
  * Implementation of {@link PostService}.
  *
  * <p>Handles post CRUD, image upload/replacement, and like/unlike toggles.
  * Posts are always scoped to the author’s college.</p>
  */
+=======
+>>>>>>> upstream/main
 @Service
 public class PostServiceImpl implements PostService {
 

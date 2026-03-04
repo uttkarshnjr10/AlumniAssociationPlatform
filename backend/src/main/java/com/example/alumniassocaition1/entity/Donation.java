@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+<<<<<<< HEAD
 /**
  * JPA entity representing a monetary donation made by a {@link User} to a {@link College}.
  *
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
  * Razorpay order, payment, and signature identifiers for verification and
  * reconciliation.</p>
  */
+=======
+>>>>>>> upstream/main
 @Entity
 @Getter
 @Setter
@@ -26,6 +29,7 @@ public class Donation {
     private Long donationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+<<<<<<< HEAD
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -51,6 +55,31 @@ public class Donation {
 
     /** Payment status – {@code CREATED}, {@code SUCCESSFUL}, or {@code FAILED}. */
     @Column(nullable = false, length = 20)
+=======
+    @JoinColumn(name = "user_id", nullable = false) // The donor
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "college_id", nullable = false) // The recipient college
+    private College college;
+
+    @Column(nullable = false, precision = 10, scale = 2) // Example precision
+    private BigDecimal amount;
+
+    @Column(nullable = false, length = 3) // e.g., "INR", "USD"
+    private String currency;
+
+    @Column(name = "razorpay_payment_id", length = 50) // From Razorpay after successful payment
+    private String razorpayPaymentId;
+
+    @Column(name = "razorpay_order_id", length = 50, unique = true) // From Razorpay when order is created
+    private String razorpayOrderId;
+
+    @Column(name = "razorpay_signature", length = 100) // For verification
+    private String razorpaySignature;
+
+    @Column(nullable = false, length = 20) // e.g., 'CREATED', 'SUCCESSFUL', 'FAILED'
+>>>>>>> upstream/main
     private String status;
 
     @Column(name = "donated_at", updatable = false)
@@ -65,10 +94,17 @@ public class Donation {
         donatedAt = now;
         updatedAt = now;
         if (status == null) {
+<<<<<<< HEAD
             status = "CREATED";
         }
         if (currency == null) {
             currency = "INR";
+=======
+            status = "CREATED"; // Default status on creation
+        }
+        if (currency == null) {
+            currency = "INR"; // Default currency
+>>>>>>> upstream/main
         }
     }
 

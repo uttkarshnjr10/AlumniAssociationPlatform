@@ -10,9 +10,12 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
+<<<<<<< HEAD
 /**
  * Composite primary key for {@link EventAttendee}.
  */
+=======
+>>>>>>> upstream/main
 @Embeddable
 @Getter
 @Setter

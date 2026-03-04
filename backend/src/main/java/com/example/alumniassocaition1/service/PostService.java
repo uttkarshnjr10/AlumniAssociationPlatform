@@ -10,9 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
 /**
  * Service contract for post CRUD, image uploads, and like/unlike operations.
  */
+=======
+>>>>>>> upstream/main
 public interface PostService {
     Page<PostDto> getAllPosts(Pageable pageable);
     PostDto getPostById(Long postId) throws ResourceNotFoundException;

@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link PostLike} entities with composite key {@link PostLikeId}.
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface PostLikeRepository extends JpaRepository<PostLike, PostLikeId> {
     List<PostLike> findByIdPostId(Long postId);

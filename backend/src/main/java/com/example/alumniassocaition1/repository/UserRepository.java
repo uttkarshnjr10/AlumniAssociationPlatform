@@ -9,12 +9,15 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link User} entities.
  *
  * <p>Provides college-scoped queries, email lookups, and combined
  * name/email search capabilities for the search feature.</p>
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     // Find a user by their unique email address (used for login and checks)

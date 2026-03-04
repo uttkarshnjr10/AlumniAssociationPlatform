@@ -9,11 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Spring Data JPA repository for {@link Post} entities.
  *
  * <p>Supports college-scoped paginated feeds and per-user post lookups.</p>
  */
+=======
+>>>>>>> upstream/main
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByAuthorCollegeCollegeIdOrderByCreatedAtDesc(Long collegeId, Pageable pageable);

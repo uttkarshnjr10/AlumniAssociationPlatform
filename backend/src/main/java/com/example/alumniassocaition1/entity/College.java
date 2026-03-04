@@ -7,6 +7,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
+<<<<<<< HEAD
 /**
  * JPA entity representing a registered college or institution on the platform.
  *
@@ -14,6 +15,8 @@ import lombok.Setter;
  * {@code approved}/{@code rejected}) before its users can access the platform.
  * Users, donations, and events are all scoped to a single college.</p>
  */
+=======
+>>>>>>> upstream/main
 @Entity
 @Getter
 @Setter
@@ -39,8 +42,12 @@ public class College {
     @Column(name = "contact_phone")
     private String contactPhone;
 
+<<<<<<< HEAD
     /** Registration status – {@code pending}, {@code approved}, or {@code rejected}. */
     @Column(name = "registration_status", nullable = false)
+=======
+    @Column(name = "registration_status", nullable = false) // e.g., 'pending', 'approved', 'rejected'
+>>>>>>> upstream/main
     private String registrationStatus;
 
     @Column(name = "created_at", updatable = false)
@@ -55,7 +62,11 @@ public class College {
     @OneToMany(mappedBy = "college")
     private Set<Donation> donations;
 
+<<<<<<< HEAD
     @OneToMany(mappedBy = "college")
+=======
+    @OneToMany(mappedBy = "college") // Assuming events are directly linked to a college
+>>>>>>> upstream/main
     private Set<Event> events;
 
     @PrePersist

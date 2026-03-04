@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 /**
  * Implementation of {@link AdminService}.
  *
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
  * User removal cascades through follow relationships, likes, comments,
  * posts, events, and donations before deleting the user entity.</p>
  */
+=======
+>>>>>>> upstream/main
 @Service
 public class AdminServiceImpl implements AdminService {
 

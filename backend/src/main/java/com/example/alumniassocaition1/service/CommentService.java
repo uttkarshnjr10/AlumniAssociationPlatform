@@ -6,9 +6,12 @@ import com.example.alumniassocaition1.exception.ResourceNotFoundException; // Ad
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Service contract for comment CRUD on posts.
  */
+=======
+>>>>>>> upstream/main
 public interface CommentService {
     List<CommentDto> getCommentsForPost(Long postId) throws ResourceNotFoundException; // Added exception
 
