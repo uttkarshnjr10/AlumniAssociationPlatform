@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-=======
-// File: com/example/alumniassocaition1/dto/EventCreateRequest.java
->>>>>>> upstream/main
-package com.example.alumniassocaition1.dto;
+package main.java.com.example.alumniassocaition1.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,12 +8,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-<<<<<<< HEAD
 /**
  * Immutable request payload for creating or updating an event (JSON endpoint).
- *
- * <p>Uses {@link JsonCreator} for explicit deserialization to guarantee
- * all required fields are provided at construction time.</p>
  */
 public class EventCreateRequest {
 
@@ -32,21 +24,6 @@ public class EventCreateRequest {
     private final LocalDateTime date;
 
     @NotBlank(message = "Location is required")
-=======
-public class EventCreateRequest {
-
-    @NotBlank(message = "must not be blank")
-    private final String title;
-
-    @NotBlank(message = "must not be blank")
-    private final String description;
-
-    @NotNull(message = "must not be null")
-    @Future
-    private final LocalDateTime date;
-
-    @NotBlank(message = "must not be blank")
->>>>>>> upstream/main
     private final String location;
 
     private final Long collegeId;
@@ -65,17 +42,6 @@ public class EventCreateRequest {
         this.collegeId = collegeId;
     }
 
-<<<<<<< HEAD
-    public String getTitle() { return title; }
-
-    public String getDescription() { return description; }
-
-    public LocalDateTime getDate() { return date; }
-
-    public String getLocation() { return location; }
-
-    public Long getCollegeId() { return collegeId; }
-=======
     public String getTitle() {
         return title;
     }
@@ -95,5 +61,4 @@ public class EventCreateRequest {
     public Long getCollegeId() {
         return collegeId;
     }
->>>>>>> upstream/main
 }

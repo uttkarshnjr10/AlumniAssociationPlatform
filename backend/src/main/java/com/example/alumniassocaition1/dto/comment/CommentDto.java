@@ -1,21 +1,16 @@
-package com.example.alumniassocaition1.dto;
+package main.java.com.example.alumniassocaition1.dto.comment;
 
 import com.example.alumniassocaition1.dto.user.UserSummaryDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-<<<<<<< HEAD
 /**
  * Response DTO representing a comment on a post.
  */
 @Data
 public class CommentDto {
 
-=======
-@Data
-public class CommentDto {
->>>>>>> upstream/main
     private Long id;
     private Long postId;
     private UserSummaryDto author;

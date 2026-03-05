@@ -1,20 +1,18 @@
 package com.example.alumniassocaition1.controller;
 
 import com.example.alumniassocaition1.dto.ApiResponse;
-import com.example.alumniassocaition1.dto.JwtAuthenticationResponse;
-import com.example.alumniassocaition1.dto.LoginRequest;
+import com.example.alumniassocaition1.dto.auth.JwtAuthenticationResponse;
+import com.example.alumniassocaition1.dto.auth.LoginRequest;
 import com.example.alumniassocaition1.dto.user.UserSummaryDto;
 import com.example.alumniassocaition1.entity.User;
+import com.example.alumniassocaition1.exception.ResourceNotFoundException;
 import com.example.alumniassocaition1.security.JwtTokenProvider;
 import com.example.alumniassocaition1.service.UserService;
-<<<<<<< HEAD
-
+import com.example.alumniassocaition1.util.DtoMapper;
+import com.example.alumniassocaition1.util.SecurityUtils;
 import jakarta.validation.Valid;
-=======
-import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> upstream/main
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,150 +20,96 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
+import java.util.Map;
+
 /**
- * REST controller for authentication operations.
- *
- * <p>Provides login, logout, and current-user endpoints.
- * Stateless JWT tokens are issued on successful authentication.</p>
+ * REST controller for authentication (login, register) and current-user info.
  */
-=======
->>>>>>> upstream/main
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-<<<<<<< HEAD
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final SecurityUtils securityUtils;
+    private final DtoMapper dtoMapper;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          JwtTokenProvider tokenProvider,
-                          UserService userService) {
+            JwtTokenProvider tokenProvider,
+            UserService userService,
+            PasswordEncoder passwordEncoder,
+            SecurityUtils securityUtils,
+            DtoMapper dtoMapper) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.securityUtils = securityUtils;
+        this.dtoMapper = dtoMapper;
     }
 
-    /**
-     * Authenticates a user and returns a JWT token with user summary.
-     */
-=======
-    @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    JwtTokenProvider tokenProvider;
-
-    @Autowired
-    UserService userService;
-
->>>>>>> upstream/main
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword()
-                    )
-            );
-
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
             User user = userService.findUserByEmail(loginRequest.getEmail());
-<<<<<<< HEAD
-            UserSummaryDto userSummary = mapToUserSummary(user);
-=======
-            UserSummaryDto userSummary = new UserSummaryDto();
-            BeanUtils.copyProperties(user, userSummary);
-            userSummary.setId(user.getUserId());
->>>>>>> upstream/main
+            UserSummaryDto userDto = dtoMapper.toUserSummary(user);
 
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userSummary));
-
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userDto));
         } catch (BadCredentialsException e) {
-<<<<<<< HEAD
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse(false, "Invalid email or password"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-=======
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse(false, "Invalid email or password"));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
->>>>>>> upstream/main
-                    .body(new ApiResponse(false, "An error occurred during authentication"));
+                    .body(new ApiResponse(false, "Invalid email or password."));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "User not found."));
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * Clears the server-side security context (client must discard the JWT).
-     */
-=======
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody Map<String, String> registrationRequest) {
+        String name = registrationRequest.get("name");
+        String email = registrationRequest.get("email");
+        String password = registrationRequest.get("password");
 
->>>>>>> upstream/main
-    @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser() {
-        SecurityContextHolder.clearContext();
-        return ResponseEntity.ok(new ApiResponse(true, "Logout successful"));
+        if (name == null || email == null || password == null) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse(false, "Name, email, and password are required."));
+        }
+
+        try {
+            userService.findUserByEmail(email);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ApiResponse(false, "Email is already in use."));
+        } catch (ResourceNotFoundException ignored) {
+            // Email not taken — proceed
+        }
+
+        // Note: Registration without college association should be handled
+        // via CollegeController.registerCollege for full flow
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse(true, "User registered. Use college registration for full onboarding."));
     }
 
-<<<<<<< HEAD
-    /**
-     * Returns the profile summary of the currently authenticated user.
-     */
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getPrincipal())) {
+        try {
+            User user = securityUtils.getCurrentUser();
+            UserSummaryDto dto = dtoMapper.toUserSummary(user);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse(false, "User not authenticated"));
+                    .body(new ApiResponse(false, "Could not authenticate user."));
         }
-        User user = userService.findUserByEmail(authentication.getName());
-        UserSummaryDto userSummary = mapToUserSummary(user);
-=======
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
-            return ResponseEntity.status(401).body(new ApiResponse(false, "User not authenticated"));
-        }
-        String email = authentication.getName();
-        User user = userService.findUserByEmail(email);
-        UserSummaryDto userSummary = new UserSummaryDto();
-        BeanUtils.copyProperties(user, userSummary);
-        userSummary.setId(user.getUserId());
->>>>>>> upstream/main
-        userSummary.setRole(user.getRole());
-
-        return ResponseEntity.ok(userSummary);
     }
-<<<<<<< HEAD
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    private UserSummaryDto mapToUserSummary(User user) {
-        UserSummaryDto dto = new UserSummaryDto();
-        dto.setId(user.getUserId());
-        dto.setName(user.getName());
-        dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole());
-        dto.setStatus(user.getStatus());
-        dto.setProfilePictureUrl(user.getProfilePictureUrl());
-        return dto;
-    }
-=======
->>>>>>> upstream/main
 }

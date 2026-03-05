@@ -1,4 +1,3 @@
-// --- File: com/example/alumniassocaition1/service/UserService.java ---
 package com.example.alumniassocaition1.service;
 
 import com.example.alumniassocaition1.dto.user.UserProfileDto;
@@ -7,16 +6,15 @@ import com.example.alumniassocaition1.dto.user.UserUpdateRequest;
 import com.example.alumniassocaition1.entity.User;
 import com.example.alumniassocaition1.exception.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
 import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Service contract for user-related operations including profile management,
  * follow/unfollow, and Spring Security {@link UserDetailsService} integration.
  */
-=======
->>>>>>> upstream/main
-public interface UserService extends UserDetailsService { // Extends UserDetailsService for Spring Security integration
+public interface UserService extends UserDetailsService {
+
     UserProfileDto getUserProfile(Long userId) throws ResourceNotFoundException;
 
     UserProfileDto getCurrentUserProfile();
@@ -35,12 +33,5 @@ public interface UserService extends UserDetailsService { // Extends UserDetails
 
     User findUserByEmail(String email) throws ResourceNotFoundException;
 
-    // --- NEW METHOD TO BE USED BY OTHER SERVICES LIKE SearchServiceImpl ---
-    /**
-     * Retrieves the currently authenticated User entity.
-     * Throws an exception if no user is authenticated or found.
-     * @return The authenticated User entity.
-     */
     User getCurrentAuthenticatedUserEntity();
-
 }

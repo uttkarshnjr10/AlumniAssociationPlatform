@@ -4,24 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
-<<<<<<< HEAD
- * Generic "not found" exception for domain resources such as users, posts, or events.
+ * Generic "not found" exception for domain resources.
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
-=======
- * Custom exception for cases where a requested resource is not found.
- * Results in an HTTP 404 Not Found status.
- */
-@ResponseStatus(HttpStatus.NOT_FOUND) // This annotation ensures Spring MVC returns 404
-public class ResourceNotFoundException extends RuntimeException { // Changed from Throwable
->>>>>>> upstream/main
 
     private String resourceName;
     private String fieldName;
     private Object fieldValue;
 
-    // Constructor as designed for specific resource not found messages
     public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
         super(String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue));
         this.resourceName = resourceName;
@@ -29,7 +20,6 @@ public class ResourceNotFoundException extends RuntimeException { // Changed fro
         this.fieldValue = fieldValue;
     }
 
-    // General constructor if only a message is needed
     public ResourceNotFoundException(String message) {
         super(message);
     }

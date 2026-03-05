@@ -7,17 +7,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-<<<<<<< HEAD
 /**
  * JPA entity representing a platform user.
- *
- * <p>Each user belongs to a single {@link College} and holds a role such as
- * {@code student}, {@code alumnus}, or {@code admin}. Profile information,
- * follow relationships, posts, events, and donations are all tracked through
- * this entity.</p>
  */
-=======
->>>>>>> upstream/main
 @Entity
 @Getter
 @Setter
@@ -42,19 +34,10 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-<<<<<<< HEAD
-    /** User role – e.g. {@code student}, {@code alumnus}, {@code admin}. */
     @Column(nullable = false)
     private String role;
 
-    /** Account status – e.g. {@code active}, {@code inactive}, {@code pending_verification}. */
     @Column(nullable = false)
-=======
-    @Column(nullable = false) // e.g., 'student', 'alumnus', 'admin'
-    private String role;
-
-    @Column(nullable = false) // e.g., 'active', 'inactive', 'pending_verification'
->>>>>>> upstream/main
     private String status;
 
     @Column(name = "profile_headline")
@@ -63,11 +46,7 @@ public class User {
     @Column(name = "profile_location")
     private String profileLocation;
 
-<<<<<<< HEAD
     @Lob
-=======
-    @Lob // For longer text
->>>>>>> upstream/main
     @Column(name = "profile_about")
     private String profileAbout;
 
@@ -98,22 +77,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<PostLike> postLikes;
 
-<<<<<<< HEAD
-    /** Users that this user is following. */
     @OneToMany(mappedBy = "follower")
     private Set<UserFollow> following;
 
-    /** Users that follow this user. */
     @OneToMany(mappedBy = "following")
     private Set<UserFollow> followers;
-=======
-    @OneToMany(mappedBy = "follower")
-    private Set<UserFollow> following; // Users this user is following
-
-    @OneToMany(mappedBy = "following")
-    private Set<UserFollow> followers; // Users following this user
->>>>>>> upstream/main
-
 
     @PrePersist
     protected void onCreate() {

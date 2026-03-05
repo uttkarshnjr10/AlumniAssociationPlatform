@@ -7,15 +7,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-<<<<<<< HEAD
 /**
  * JPA entity representing a campus or alumni event.
- *
- * <p>Events are organised within a {@link College} context and track their
- * attendees via {@link EventAttendee} join entities.</p>
  */
-=======
->>>>>>> upstream/main
 @Entity
 @Getter
 @Setter
@@ -40,11 +34,7 @@ public class Event {
     @Column(nullable = false)
     private String location;
 
-<<<<<<< HEAD
     @Column(name = "image_url")
-=======
-    @Column(name = "image_url") // New field for event image
->>>>>>> upstream/main
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -8,21 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
 /**
- * Spring Data JPA repository for {@link UserFollow} entities with composite key {@link UserFollowId}.
- *
- * <p>Supports follower/following lookups, existence checks, counts,
- * and cascade deletes when a user is removed.</p>
+ * Spring Data JPA repository for {@link UserFollow} entities.
  */
-=======
->>>>>>> upstream/main
 @Repository
 public interface UserFollowRepository extends JpaRepository<UserFollow, UserFollowId> {
-    // Find all users that a specific user is following
+
     List<UserFollow> findByIdFollowerId(Long followerId);
 
-    // Find all followers of a specific user
     List<UserFollow> findByIdFollowingId(Long followingId);
 
     Optional<UserFollow> findByIdFollowerIdAndIdFollowingId(Long followerId, Long followingId);
@@ -31,11 +24,10 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, UserFoll
 
     boolean existsByIdFollowerIdAndIdFollowingId(Long followerId, Long followingId);
 
-    long countByIdFollowerId(Long followerId); // Count of users someone is following
+    long countByIdFollowerId(Long followerId);
 
-    long countByIdFollowingId(Long followingId); // Count of followers
+    long countByIdFollowingId(Long followingId);
 
-    // In UserFollowRepository.java
     void deleteByIdFollowerId(Long followerId);
 
     void deleteByIdFollowingId(Long followingId);

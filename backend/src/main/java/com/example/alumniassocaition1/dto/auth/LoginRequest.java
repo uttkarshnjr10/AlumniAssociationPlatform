@@ -1,10 +1,9 @@
-package com.example.alumniassocaition1.dto;
+package main.java.com.example.alumniassocaition1.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-<<<<<<< HEAD
 /**
  * Request payload for user authentication (login).
  */
@@ -16,14 +15,5 @@ public class LoginRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-=======
-@Data
-public class LoginRequest {
-    @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
->>>>>>> upstream/main
     private String password;
 }

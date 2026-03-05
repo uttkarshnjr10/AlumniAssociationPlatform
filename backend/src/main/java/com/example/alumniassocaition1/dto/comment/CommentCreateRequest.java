@@ -1,9 +1,8 @@
-package com.example.alumniassocaition1.dto;
+package com.example.alumniassocaition1.dto.comment;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-<<<<<<< HEAD
 /**
  * Request payload for creating a new comment on a post.
  */
@@ -11,10 +10,5 @@ import lombok.Data;
 public class CommentCreateRequest {
 
     @NotBlank(message = "Comment text is required")
-=======
-@Data
-public class CommentCreateRequest {
-    @NotBlank
->>>>>>> upstream/main
     private String text;
 }

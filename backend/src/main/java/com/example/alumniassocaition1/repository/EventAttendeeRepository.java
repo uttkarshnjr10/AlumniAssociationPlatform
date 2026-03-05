@@ -8,14 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-<<<<<<< HEAD
 /**
- * Spring Data JPA repository for {@link EventAttendee} entities with composite key {@link EventAttendeeId}.
+ * Spring Data JPA repository for {@link EventAttendee} entities.
  */
-=======
->>>>>>> upstream/main
 @Repository
 public interface EventAttendeeRepository extends JpaRepository<EventAttendee, EventAttendeeId> {
+
     List<EventAttendee> findByIdEventId(Long eventId);
 
     List<EventAttendee> findByIdUserId(Long userId);
