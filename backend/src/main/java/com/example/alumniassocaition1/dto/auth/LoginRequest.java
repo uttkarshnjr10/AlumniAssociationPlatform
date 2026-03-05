@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.dto.auth;
+package com.example.alumniassocaition1.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

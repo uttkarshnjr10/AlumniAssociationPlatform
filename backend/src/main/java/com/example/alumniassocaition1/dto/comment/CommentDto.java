@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.dto.comment;
+package com.example.alumniassocaition1.dto.comment;
 
 import com.example.alumniassocaition1.dto.user.UserSummaryDto;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.config;
+package com.example.alumniassocaition1.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

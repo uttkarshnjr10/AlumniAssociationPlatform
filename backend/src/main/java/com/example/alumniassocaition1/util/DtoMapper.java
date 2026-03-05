@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.util;
+package com.example.alumniassocaition1.util;
 
 import com.example.alumniassocaition1.dto.comment.CommentDto;
 import com.example.alumniassocaition1.dto.event.EventDto;

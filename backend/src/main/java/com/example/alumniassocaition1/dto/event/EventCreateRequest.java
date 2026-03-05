@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.dto.event;
+package com.example.alumniassocaition1.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

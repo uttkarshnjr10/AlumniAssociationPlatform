@@ -1,4 +1,4 @@
-package main.java.com.example.alumniassocaition1.service;
+package com.example.alumniassocaition1.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
