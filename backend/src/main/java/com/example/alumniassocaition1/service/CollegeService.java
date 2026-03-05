@@ -3,6 +3,9 @@ package com.example.alumniassocaition1.service;
 import com.example.alumniassocaition1.dto.college.CollegeDto;
 import com.example.alumniassocaition1.dto.college.CollegeRegistrationRequest;
 
+/**
+ * Service contract for college registration workflow.
+ */
 public interface CollegeService {
     CollegeDto registerCollege(CollegeRegistrationRequest registrationRequest);
 }

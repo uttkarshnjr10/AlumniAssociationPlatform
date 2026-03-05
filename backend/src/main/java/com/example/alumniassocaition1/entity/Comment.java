@@ -1,11 +1,14 @@
 package com.example.alumniassocaition1.entity;
 
-
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+/**
+ * JPA entity representing a comment on a {@link Post}.
+ */
 @Entity
 @Getter
 @Setter
@@ -46,4 +49,3 @@ public class Comment {
         updatedAt = LocalDateTime.now();
     }
 }
-

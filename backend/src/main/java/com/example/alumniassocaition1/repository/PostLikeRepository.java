@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link PostLike} entities.
+ */
 @Repository
 public interface PostLikeRepository extends JpaRepository<PostLike, PostLikeId> {
+
     List<PostLike> findByIdPostId(Long postId);
 
     List<PostLike> findByIdUserId(Long userId);
@@ -21,7 +25,6 @@ public interface PostLikeRepository extends JpaRepository<PostLike, PostLikeId> 
     long countByIdPostId(Long postId);
 
     boolean existsByIdPostIdAndIdUserId(Long postId, Long userId);
-    // In PostLikeRepository.java
-    void deleteByIdUserId(Long userId); // New method needed
 
+    void deleteByIdUserId(Long userId);
 }

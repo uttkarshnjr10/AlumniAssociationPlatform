@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Join entity recording a user's attendance at an {@link Event}.
+ */
 @Entity
 @Getter
 @Setter
@@ -16,12 +19,12 @@ public class EventAttendee {
     private EventAttendeeId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("eventId") // Maps eventId attribute of embedded id
+    @MapsId("eventId")
     @JoinColumn(name = "event_id")
     private Event event;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId") // Maps userId attribute of embedded id
+    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 

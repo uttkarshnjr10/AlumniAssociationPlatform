@@ -5,11 +5,15 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * Response DTO representing a post with engagement metrics.
+ */
 @Data
 public class PostDto {
+
     private Long id;
     private String content;
-    private String imageUrl; // This URL will point to the locally served file
+    private String imageUrl;
     private UserSummaryDto author;
     private LocalDateTime createdAt;
     private long likesCount;

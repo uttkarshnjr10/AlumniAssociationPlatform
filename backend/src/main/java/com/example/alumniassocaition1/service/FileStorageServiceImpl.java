@@ -1,10 +1,11 @@
 package com.example.alumniassocaition1.service;
 
-import com.example.alumniassocaition1.exception.FileStorageException; // Import custom exceptions
+import com.example.alumniassocaition1.exception.FileStorageException;
 import com.example.alumniassocaition1.exception.MyFileNotFoundException;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-// Correct Resource import
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,19 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+/**
+ * Local file-system implementation of {@link FileStorageService}.
+ *
+ * <p>
+ * Files are stored in the directory specified by {@code file.upload-dir}
+ * (default {@code ./uploads}). Uploaded files are renamed with a UUID
+ * to prevent collisions.
+ * </p>
+ */
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileStorageServiceImpl.class);
 
     private final Path fileStorageLocation;
 
@@ -36,21 +48,22 @@ public class FileStorageServiceImpl implements FileStorageService {
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            // Wrap the original exception
-            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+            throw new FileStorageException(
+                    "Could not create the directory where uploaded files will be stored.", ex);
         }
     }
 
     @Override
     public String storeFile(MultipartFile file) throws FileStorageException {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String fileExtension = "";
 
         try {
             if (originalFileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + originalFileName);
+                throw new FileStorageException(
+                        "Filename contains invalid path sequence: " + originalFileName);
             }
 
+            String fileExtension = "";
             if (originalFileName.contains(".")) {
                 fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             }
@@ -64,10 +77,9 @@ public class FileStorageServiceImpl implements FileStorageService {
 
             return uniqueFileName;
         } catch (IOException ex) {
-            // Wrap the original exception
-            throw new FileStorageException("Could not store file " + originalFileName + ". Please try again!", ex);
+            throw new FileStorageException(
+                    "Could not store file " + originalFileName + ". Please try again!", ex);
         }
-        // Removed redundant catch block for FileStorageException
     }
 
     @Override
@@ -77,7 +89,6 @@ public class FileStorageServiceImpl implements FileStorageService {
                     .filter(path -> !path.equals(this.fileStorageLocation))
                     .map(this.fileStorageLocation::relativize);
         } catch (IOException e) {
-            // Wrap the original exception
             throw new FileStorageException("Failed to read stored files", e);
         }
     }
@@ -91,15 +102,13 @@ public class FileStorageServiceImpl implements FileStorageService {
     public Resource loadFileAsResource(String filename) throws MyFileNotFoundException {
         try {
             Path filePath = load(filename).normalize();
-            // Use Spring's UrlResource
             Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists() && resource.isReadable()) { // Check both exists and isReadable
+            if (resource.exists() && resource.isReadable()) {
                 return resource;
-            } else {
-                throw new MyFileNotFoundException("Could not read file: " + filename);
             }
+            throw new MyFileNotFoundException("Could not read file: " + filename);
         } catch (MalformedURLException ex) {
-            throw new MyFileNotFoundException("File not found " + filename, ex);
+            throw new MyFileNotFoundException("File not found: " + filename, ex);
         }
     }
 
@@ -109,11 +118,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             Path filePath = load(filename).normalize();
             Files.deleteIfExists(filePath);
         } catch (IOException ex) {
-            // Log this, but don't necessarily throw a fatal error if file deletion fails
-            System.err.println("Could not delete file: " + filename + " due to " + ex.getMessage());
-            // Optionally rethrow if deletion failure is critical:
-            // throw new FileStorageException("Could not delete file " + filename, ex);
+            logger.warn("Could not delete file '{}': {}", filename, ex.getMessage());
         }
     }
 }
-

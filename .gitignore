@@ -1,0 +1,77 @@
+# =============================================================================
+#  Alumni Association Platform — .gitignore
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+#  OS & Editor
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# JetBrains IDEs
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+
+# Eclipse / STS
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache
+.apt_generated
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+
+# -----------------------------------------------------------------------------
+#  Backend — Spring Boot / Maven  (backend/)
+# -----------------------------------------------------------------------------
+backend/target/
+backend/*.jar
+backend/*.war
+backend/application.log
+
+# Maven wrapper (keep the jar, ignore downloaded artifacts)
+!backend/.mvn/wrapper/maven-wrapper.jar
+
+# Uploaded files (runtime data, not source)
+backend/uploads/
+
+# Env / secrets
+backend/.env
+
+# -----------------------------------------------------------------------------
+#  Frontend — React / Vite  (frontend/)
+# -----------------------------------------------------------------------------
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Vite cache
+frontend/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local overrides
+*.local

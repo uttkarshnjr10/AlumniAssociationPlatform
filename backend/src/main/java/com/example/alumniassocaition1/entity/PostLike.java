@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Join entity representing a user's "like" on a {@link Post}.
+ */
 @Entity
 @Getter
 @Setter

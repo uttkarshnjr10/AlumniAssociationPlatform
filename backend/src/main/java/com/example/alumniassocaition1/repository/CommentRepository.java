@@ -6,12 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA repository for {@link Comment} entities.
+ */
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
     List<Comment> findByPostPostIdOrderByCreatedAtAsc(Long postId);
 
     List<Comment> findByAuthorUserId(Long userId);
 
     long countByPostPostId(Long postId);
-    // Add custom query methods if needed
 }

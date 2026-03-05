@@ -1,10 +1,10 @@
 package com.example.alumniassocaition1.security;
 
 import io.jsonwebtoken.*;
-// Specific import
 import io.jsonwebtoken.security.Keys;
-// Removed: import io.jsonwebtoken.io.Decoders; // Was unused
+import io.jsonwebtoken.security.SecurityException;
 
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,10 +12,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+/**
+ * Utility component for JWT token generation, parsing, and validation.
+ *
+ * <p>
+ * Uses HMAC-SHA512 signing algorithm. The secret key is derived from
+ * the {@code app.jwtSecret} property.
+ * </p>
+ */
 @Component
 public class JwtTokenProvider {
 
@@ -27,63 +34,61 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    private SecretKey jwtSecretKey;
+    private SecretKey signingKey;
 
     @PostConstruct
     public void init() {
-        // Ensure the secret is strong enough for HS512 (at least 64 bytes)
-        if (jwtSecretString == null || jwtSecretString.getBytes().length < 64) { // Check byte length for more accuracy
-            logger.warn("JWT Secret ('app.jwtSecret') is weak, not configured, or too short (requires at least 64 bytes for HS512). " +
-                    "Using a default, dynamically generated secure key. PLEASE CONFIGURE a strong 'app.jwtSecret' in your application.properties for production.");
-            this.jwtSecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512); // Generates a secure key
+        if (jwtSecretString == null || jwtSecretString.getBytes().length < 64) {
+            logger.warn("JWT secret is missing or too short for HS512 (requires >= 64 bytes). "
+                    + "Generating a random key. Configure 'app.jwtSecret' for production.");
+            this.signingKey = Jwts.SIG.HS512.key().build();
         } else {
-            // Assuming jwtSecretString is a plain string. If it were Base64 encoded, you'd use Decoders.BASE64.decode()
-            this.jwtSecretKey = Keys.hmacShaKeyFor(jwtSecretString.getBytes());
+            this.signingKey = Keys.hmacShaKeyFor(jwtSecretString.getBytes());
         }
     }
 
+    /** Generates a JWT token for the authenticated user. */
     public String generateToken(Authentication authentication) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername()) // Typically email
-                .setIssuedAt(now) // Use the 'now' variable
-                .setExpiration(expiryDate)
-                .signWith(jwtSecretKey, SignatureAlgorithm.HS512) // Ensure algorithm matches key type
+                .subject(userPrincipal.getUsername())
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(signingKey, Jwts.SIG.HS512)
                 .compact();
     }
 
+    /** Extracts the username (email) from a JWT token. */
     public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecretKey)
+        return Jwts.parser()
+                .verifyWith(signingKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
     }
 
+    /** Validates a JWT token's signature and expiration. */
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser()
-                    .setSigningKey(jwtSecretKey)
+                    .verifyWith(signingKey)
                     .build()
-                    .parseClaimsJws(authToken);
+                    .parseSignedClaims(authToken);
             return true;
+        } catch (SecurityException ex) {
+            logger.error("Invalid JWT signature: {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid JWT token: {}", ex.getMessage());
+            logger.error("Malformed JWT token: {}", ex.getMessage());
         } catch (ExpiredJwtException ex) {
             logger.error("Expired JWT token: {}", ex.getMessage());
         } catch (UnsupportedJwtException ex) {
             logger.error("Unsupported JWT token: {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            // This can happen if the token string is null or empty, or if claims are malformed.
-            logger.error("JWT claims string is empty or argument is invalid: {}", ex.getMessage());
-        } catch (io.jsonwebtoken.security.SecurityException ex) { // Catches signature errors
-            logger.error("JWT signature validation failed: {}", ex.getMessage());
-        } catch (Exception e) { // Catch any other unexpected JWT parsing errors
-            logger.error("Could not validate JWT token for an unexpected reason: {}", e.getMessage());
+            logger.error("JWT claims string is empty: {}", ex.getMessage());
         }
         return false;
     }

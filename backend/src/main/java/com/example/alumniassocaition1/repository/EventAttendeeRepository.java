@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for {@link EventAttendee} entities.
+ */
 @Repository
 public interface EventAttendeeRepository extends JpaRepository<EventAttendee, EventAttendeeId> {
+
     List<EventAttendee> findByIdEventId(Long eventId);
 
     List<EventAttendee> findByIdUserId(Long userId);

@@ -1,12 +1,15 @@
 package com.example.alumniassocaition1.entity;
 
-
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+
+/**
+ * JPA entity representing a registered college or institution on the platform.
+ */
 @Entity
 @Getter
 @Setter
@@ -32,7 +35,7 @@ public class College {
     @Column(name = "contact_phone")
     private String contactPhone;
 
-    @Column(name = "registration_status", nullable = false) // e.g., 'pending', 'approved', 'rejected'
+    @Column(name = "registration_status", nullable = false)
     private String registrationStatus;
 
     @Column(name = "created_at", updatable = false)
@@ -47,7 +50,7 @@ public class College {
     @OneToMany(mappedBy = "college")
     private Set<Donation> donations;
 
-    @OneToMany(mappedBy = "college") // Assuming events are directly linked to a college
+    @OneToMany(mappedBy = "college")
     private Set<Event> events;
 
     @PrePersist
@@ -61,4 +64,3 @@ public class College {
         updatedAt = LocalDateTime.now();
     }
 }
-

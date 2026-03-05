@@ -2,14 +2,14 @@ package com.example.alumniassocaition1.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Composite primary key for {@link EventAttendee}.
+ */
 @Embeddable
 @Getter
 @Setter
@@ -25,8 +25,10 @@ public class EventAttendeeId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         EventAttendeeId that = (EventAttendeeId) o;
         return Objects.equals(eventId, that.eventId) && Objects.equals(userId, that.userId);
     }

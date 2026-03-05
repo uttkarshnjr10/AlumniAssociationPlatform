@@ -7,6 +7,10 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * JPA entity representing a monetary donation made by a {@link User} to a
+ * {@link College}.
+ */
 @Entity
 @Getter
 @Setter
@@ -19,29 +23,29 @@ public class Donation {
     private Long donationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false) // The donor
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "college_id", nullable = false) // The recipient college
+    @JoinColumn(name = "college_id", nullable = false)
     private College college;
 
-    @Column(nullable = false, precision = 10, scale = 2) // Example precision
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
-    @Column(nullable = false, length = 3) // e.g., "INR", "USD"
+    @Column(nullable = false, length = 3)
     private String currency;
 
-    @Column(name = "razorpay_payment_id", length = 50) // From Razorpay after successful payment
+    @Column(name = "razorpay_payment_id", length = 50)
     private String razorpayPaymentId;
 
-    @Column(name = "razorpay_order_id", length = 50, unique = true) // From Razorpay when order is created
+    @Column(name = "razorpay_order_id", length = 50, unique = true)
     private String razorpayOrderId;
 
-    @Column(name = "razorpay_signature", length = 100) // For verification
+    @Column(name = "razorpay_signature", length = 100)
     private String razorpaySignature;
 
-    @Column(nullable = false, length = 20) // e.g., 'CREATED', 'SUCCESSFUL', 'FAILED'
+    @Column(nullable = false, length = 20)
     private String status;
 
     @Column(name = "donated_at", updatable = false)
@@ -55,12 +59,10 @@ public class Donation {
         LocalDateTime now = LocalDateTime.now();
         donatedAt = now;
         updatedAt = now;
-        if (status == null) {
-            status = "CREATED"; // Default status on creation
-        }
-        if (currency == null) {
-            currency = "INR"; // Default currency
-        }
+        if (status == null)
+            status = "CREATED";
+        if (currency == null)
+            currency = "INR";
     }
 
     @PreUpdate

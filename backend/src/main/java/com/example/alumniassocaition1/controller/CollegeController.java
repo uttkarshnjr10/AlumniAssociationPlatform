@@ -4,23 +4,26 @@ import com.example.alumniassocaition1.dto.college.CollegeDto;
 import com.example.alumniassocaition1.dto.college.CollegeRegistrationRequest;
 import com.example.alumniassocaition1.service.CollegeService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for college registration.
+ */
 @RestController
 @RequestMapping("/api/colleges")
 public class CollegeController {
 
-    @Autowired
-    private CollegeService collegeService;
+    private final CollegeService collegeService;
+
+    public CollegeController(CollegeService collegeService) {
+        this.collegeService = collegeService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerCollege(@Valid @RequestBody CollegeRegistrationRequest registrationRequest) {
+    public ResponseEntity<?> registerCollege(
+            @Valid @RequestBody CollegeRegistrationRequest registrationRequest) {
         CollegeDto newCollege = collegeService.registerCollege(registrationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCollege);
     }

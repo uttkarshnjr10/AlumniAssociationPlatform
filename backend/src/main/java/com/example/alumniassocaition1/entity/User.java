@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * JPA entity representing a platform user.
+ */
 @Entity
 @Getter
 @Setter
@@ -31,10 +34,10 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false) // e.g., 'student', 'alumnus', 'admin'
+    @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false) // e.g., 'active', 'inactive', 'pending_verification'
+    @Column(nullable = false)
     private String status;
 
     @Column(name = "profile_headline")
@@ -43,7 +46,7 @@ public class User {
     @Column(name = "profile_location")
     private String profileLocation;
 
-    @Lob // For longer text
+    @Lob
     @Column(name = "profile_about")
     private String profileAbout;
 
@@ -75,11 +78,10 @@ public class User {
     private Set<PostLike> postLikes;
 
     @OneToMany(mappedBy = "follower")
-    private Set<UserFollow> following; // Users this user is following
+    private Set<UserFollow> following;
 
     @OneToMany(mappedBy = "following")
-    private Set<UserFollow> followers; // Users following this user
-
+    private Set<UserFollow> followers;
 
     @PrePersist
     protected void onCreate() {

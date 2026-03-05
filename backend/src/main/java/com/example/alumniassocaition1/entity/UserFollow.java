@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Join entity representing a follow relationship between two {@link User}s.
+ */
 @Entity
 @Getter
 @Setter
@@ -18,12 +21,12 @@ public class UserFollow {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("followerId")
     @JoinColumn(name = "follower_id")
-    private User follower; // The user doing the following
+    private User follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("followingId")
     @JoinColumn(name = "following_id")
-    private User following; // The user being followed
+    private User following;
 
     @Column(name = "followed_at", updatable = false)
     private LocalDateTime followedAt;
